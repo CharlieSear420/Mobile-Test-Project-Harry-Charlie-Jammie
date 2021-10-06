@@ -5,8 +5,13 @@ using UnityEngine.UI;
 
 public class Move_Bitch : MonoBehaviour
 {
-    Rigidbody2D rb;
-    bool up = false;
+    public Rigidbody2D rb;
+
+    public float horizontal;
+    public float vertical;
+    public float moveSpeedX;
+    public float moveSpeedY;
+    
 
     void Start()
     {
@@ -16,31 +21,38 @@ public class Move_Bitch : MonoBehaviour
 
     
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        
-        
-        
-        Vector2 velocity = rb.velocity;
+        horizontal = Input.GetAxisRaw("Horizontal");
+        vertical = Input.GetAxisRaw("Vertical");
 
-        velocity.x = 0;
-        velocity.y = 7;
-
-
-        float xSpeed = 5.0f;
-        float ySpeed = 5.0f;
-
-        if (up == true)
+        if(horizontal == -1)
         {
-            rb.velocity = velocity;
+            transform.localScale = new Vector3(-1, 1, 1);
+            
         }
+       
 
+        if(horizontal == 1)
+        {
+            transform.localScale = new Vector3(1,1,1);
+            
+        }
+       
+        
 
+        rb.velocity = new Vector2(horizontal * moveSpeedX, vertical * moveSpeedY);
+        
+        
+        //float xSpeed = 5.0f;
+        //float ySpeed = 5.0f;       
     }
 
 
     public void Button_press()
     {
+        rb.velocity = new Vector2(horizontal, vertical * moveSpeedY);
+        Debug.Log("dijd");
 
     }
 }
