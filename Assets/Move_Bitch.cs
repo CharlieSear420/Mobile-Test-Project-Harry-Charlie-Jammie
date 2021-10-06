@@ -11,11 +11,15 @@ public class Move_Bitch : MonoBehaviour
     public float vertical;
     public float moveSpeedX;
     public float moveSpeedY;
+
+    private Touch touch;
+    private float speedModifier;
     
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        speedModifier = 0.01f;
         
     }
 
@@ -24,6 +28,7 @@ public class Move_Bitch : MonoBehaviour
     void Update()
     {
         horizontal = Input.GetAxisRaw("Horizontal");
+        
         vertical = Input.GetAxisRaw("Vertical");
 
         if(horizontal == -1)
@@ -39,19 +44,39 @@ public class Move_Bitch : MonoBehaviour
             
         }
        
-        
+        Vector2 velocity = rb.velocity;
+        velocity.x = horizontal*moveSpeedX;
 
-        rb.velocity = new Vector2(horizontal * moveSpeedX, vertical * moveSpeedY);
+        print(horizontal);
+
+        rb.velocity = velocity;
+
+
+        //rb.velocity = new Vector2(horizontal * moveSpeedX, vertical * moveSpeedY);
         
         
         //float xSpeed = 5.0f;
-        //float ySpeed = 5.0f;       
+        //float ySpeed = 5.0f;     
+
+
+        if (Input.touchCount > 0)
+        {
+            touch = Input.GetTouch(0);
+            if (touch.phase == TouchPhase.Moved)
+            {
+                transform.position = new Vector3(
+                    transform.position.x + touch.deltaPosition.x * speedModifier,
+                    transform.position.y,
+                    transform.position.z + touch.deltaPosition.y * speedModifier
+                );
+            }
+        }  
     }
 
 
     public void Button_press()
     {
-        rb.velocity = new Vector2(horizontal, vertical * moveSpeedY);
+        rb.velocity = new Vector2(horizontal, 5 );
         Debug.Log("dijd");
 
     }
