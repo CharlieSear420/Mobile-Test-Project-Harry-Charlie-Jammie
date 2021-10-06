@@ -13,11 +13,14 @@ public class Move_Bitch : MonoBehaviour
     public float moveSpeedY;
     public bool jump = false;
     
+    private Touch touch;
+    private float speedModifier;
+
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        
+        speedModifier = 0.01f;
     }
 
     
@@ -39,9 +42,22 @@ public class Move_Bitch : MonoBehaviour
         
         
         //float xSpeed = 5.0f;
-        //float ySpeed = 5.0f;       
-    }
+        //float ySpeed = 5.0f;     
 
+        if (Input.touchCount > 0)
+        {
+            touch = Input.GetTouch(0);
+            if (touch.phase == TouchPhase.Moved)
+            {
+                transform.position = new Vector3(
+                    transform.position.x + touch.deltaPosition.x * speedModifier,
+                    transform.position.y,
+                    transform.position.z + touch.deltaPosition.y * speedModifier
+                );
+            }
+        }  
+    }
+  
 
     public void Button_press()
     {
@@ -62,3 +78,7 @@ public class Move_Bitch : MonoBehaviour
         Debug.Log("I am moving left");
     }
 }
+
+
+    
+
