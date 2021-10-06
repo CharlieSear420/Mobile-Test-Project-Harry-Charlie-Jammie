@@ -11,15 +11,12 @@ public class Move_Bitch : MonoBehaviour
     public float vertical;
     public float moveSpeedX;
     public float moveSpeedY;
-
-    private Touch touch;
-    private float speedModifier;
+    public bool jump = false;
     
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        speedModifier = 0.01f;
         
     }
 
@@ -28,56 +25,40 @@ public class Move_Bitch : MonoBehaviour
     void Update()
     {
         horizontal = Input.GetAxisRaw("Horizontal");
-        
         vertical = Input.GetAxisRaw("Vertical");
 
-        if(horizontal == -1)
-        {
-            transform.localScale = new Vector3(-1, 1, 1);
-            
-        }
+        
        
 
-        if(horizontal == 1)
-        {
-            transform.localScale = new Vector3(1,1,1);
-            
-        }
+        
        
-        Vector2 velocity = rb.velocity;
-        velocity.x = horizontal*moveSpeedX;
-
-        print(horizontal);
-
-        rb.velocity = velocity;
-
+        
 
         //rb.velocity = new Vector2(horizontal * moveSpeedX, vertical * moveSpeedY);
+        print (horizontal);
         
         
         //float xSpeed = 5.0f;
-        //float ySpeed = 5.0f;     
-
-
-        if (Input.touchCount > 0)
-        {
-            touch = Input.GetTouch(0);
-            if (touch.phase == TouchPhase.Moved)
-            {
-                transform.position = new Vector3(
-                    transform.position.x + touch.deltaPosition.x * speedModifier,
-                    transform.position.y,
-                    transform.position.z + touch.deltaPosition.y * speedModifier
-                );
-            }
-        }  
+        //float ySpeed = 5.0f;       
     }
 
 
     public void Button_press()
     {
-        rb.velocity = new Vector2(horizontal, 5 );
-        Debug.Log("dijd");
+        rb.velocity = new Vector2(horizontal, 5);
+        Debug.Log("I am jumping!");
 
+    }
+
+    public void Button_Right()
+    {
+        rb.velocity = new Vector2(6, vertical);
+        Debug.Log("I am moving right");
+    }
+
+    public void Button_Left()
+    {
+        rb.velocity = new Vector2(-6, vertical);
+        Debug.Log("I am moving left");
     }
 }
